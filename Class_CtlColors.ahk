@@ -92,9 +92,9 @@ Class CtlColors {
    }
    ; ===================================================================================================================
    ; Attach          Registers a control for coloring.
-   ; Parameters:     HWND        - HWND of the GUI control                                   
+   ; Parameters:     HWND        - HWND of the GUI control
    ;                 BkColor     - HTML color name, 6-digit hexadecimal RGB value, or "" for default color
-   ;                 ----------- Optional 
+   ;                 ----------- Optional
    ;                 TxColor     - HTML color name, 6-digit hexadecimal RGB value, or "" for default color
    ; Return values:  On success  - True
    ;                 On failure  - False, CtlColors.ErrorMsg contains additional informations
@@ -184,7 +184,7 @@ Class CtlColors {
    ; Change          Change control colors.
    ; Parameters:     HWND        - HWND of the GUI control
    ;                 BkColor     - HTML color name, 6-digit hexadecimal RGB value, or "" for default color
-   ;                 ----------- Optional 
+   ;                 ----------- Optional
    ;                 TxColor     - HTML color name, 6-digit hexadecimal RGB value, or "" for default color
    ; Return values:  On success  - True
    ;                 On failure  - False, CtlColors.ErrorMsg contains additional informations

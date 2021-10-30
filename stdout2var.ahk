@@ -46,9 +46,9 @@ StdOutStream( sCmd, Callback := "", WorkingDir:=0, ByRef ProcessID:=0) { ; Modif
   ;WORD   wShowWindow;          64        2
   ;WORD   cbReserved2;          66        2
   ;LPBYTE lpReserved2;          72        8(A_PtrSize)           aligned to 8-byte boundary (2 + 4)
-  ;HANDLE hStdInput;            80        8(A_PtrSize) 
-  ;HANDLE hStdOutput;           88        8(A_PtrSize) 
-  ;HANDLE hStdError;            96        8(A_PtrSize) 
+  ;HANDLE hStdInput;            80        8(A_PtrSize)
+  ;HANDLE hStdOutput;           88        8(A_PtrSize)
+  ;HANDLE hStdError;            96        8(A_PtrSize)
   ;
   ;ALL : 96+8=104=8*13
   ;
@@ -65,7 +65,7 @@ StdOutStream( sCmd, Callback := "", WorkingDir:=0, ByRef ProcessID:=0) { ; Modif
   ; STARTUPINFO
   ;                             offset     size
   ;DWORD  cb;                   0          4
-  ;LPTSTR lpReserved;           4          4(A_PtrSize)            
+  ;LPTSTR lpReserved;           4          4(A_PtrSize)
   ;LPTSTR lpDesktop;            8          4(A_PtrSize)
   ;LPTSTR lpTitle;              12         4(A_PtrSize)
   ;DWORD  dwX;                  16         4
@@ -78,10 +78,10 @@ StdOutStream( sCmd, Callback := "", WorkingDir:=0, ByRef ProcessID:=0) { ; Modif
   ;DWORD  dwFlags;              44         4
   ;WORD   wShowWindow;          48         2
   ;WORD   cbReserved2;          50         2
-  ;LPBYTE lpReserved2;          52         4(A_PtrSize)           
-  ;HANDLE hStdInput;            56         4(A_PtrSize) 
-  ;HANDLE hStdOutput;           60         4(A_PtrSize) 
-  ;HANDLE hStdError;            64         4(A_PtrSize) 
+  ;LPBYTE lpReserved2;          52         4(A_PtrSize)
+  ;HANDLE hStdInput;            56         4(A_PtrSize)
+  ;HANDLE hStdOutput;           60         4(A_PtrSize)
+  ;HANDLE hStdError;            64         4(A_PtrSize)
   ;
   ;ALL : 64+4=68=4*17
   ;
@@ -93,35 +93,35 @@ StdOutStream( sCmd, Callback := "", WorkingDir:=0, ByRef ProcessID:=0) { ; Modif
   ;DWORD  dwThreadId            12        4
   ;
   ;ALL : 12+4=16=4*4
-  
+
   If ! DllCall( "CreateProcess", UInt,0, UInt,&sCmd, UInt,0, UInt,0 ;  http://goo.gl/USC5a
               , UInt,1, UInt,0x08000000, UInt,0, tcWrk, WorkingDir
-              , UInt,&STARTUPINFO, UInt,&PROCESS_INFORMATION ) 
+              , UInt,&STARTUPINFO, UInt,&PROCESS_INFORMATION )
    {
-    DllCall( "CloseHandle", UInt,hPipeWrite ) 
+    DllCall( "CloseHandle", UInt,hPipeWrite )
     DllCall( "CloseHandle", UInt,hPipeRead )
-    DllCall( "SetLastError", Int,-1 )     
-    Return "" 
+    DllCall( "SetLastError", Int,-1 )
+    Return ""
    }
-   
-  hProcess := NumGet( PROCESS_INFORMATION, 0 )                 
-  hThread  := NumGet( PROCESS_INFORMATION, A_PtrSize )  
-  ProcessID:= NumGet( PROCESS_INFORMATION, A_PtrSize*2 )  
+
+  hProcess := NumGet( PROCESS_INFORMATION, 0 )
+  hThread  := NumGet( PROCESS_INFORMATION, A_PtrSize )
+  ProcessID:= NumGet( PROCESS_INFORMATION, A_PtrSize*2 )
 
   DllCall( "CloseHandle", UInt,hPipeWrite )
 
-  AIC := ( SubStr( A_AhkVersion, 1, 3 ) = "1.0" ) ;  A_IsClassic 
-  VarSetCapacity( Buffer, 4096, 0 ), nSz := 0 
-  
+  AIC := ( SubStr( A_AhkVersion, 1, 3 ) = "1.0" ) ;  A_IsClassic
+  VarSetCapacity( Buffer, 4096, 0 ), nSz := 0
+
   While DllCall( "ReadFile", UInt,hPipeRead, UInt,&Buffer, UInt,4094, UIntP,nSz, Int,0 ) {
 
-   tOutput := ( AIC && NumPut( 0, Buffer, nSz, "Char" ) && VarSetCapacity( Buffer,-1 ) ) 
+   tOutput := ( AIC && NumPut( 0, Buffer, nSz, "Char" ) && VarSetCapacity( Buffer,-1 ) )
               ? Buffer : %StrGet%( &Buffer, nSz, "CP0" ) ; formerly CP850, but I guess CP0 is suitable for different locales
 
    Isfunc( Callback ) ? %Callback%( tOutput, A_Index ) : sOutput .= tOutput
 
-  }                   
- 
+  }
+
   DllCall( "GetExitCodeProcess", UInt,hProcess, UIntP,ExitCode )
   DllCall( "CloseHandle",  UInt,hProcess  )
   DllCall( "CloseHandle",  UInt,hThread   )
@@ -130,5 +130,5 @@ StdOutStream( sCmd, Callback := "", WorkingDir:=0, ByRef ProcessID:=0) { ; Modif
   VarSetCapacity(STARTUPINFO, 0)
   VarSetCapacity(PROCESS_INFORMATION, 0)
 
-Return Isfunc( Callback ) ? %Callback%( "", 0 ) : sOutput      
+Return Isfunc( Callback ) ? %Callback%( "", 0 ) : sOutput
 }
