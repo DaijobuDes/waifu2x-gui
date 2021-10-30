@@ -38,7 +38,7 @@ If FileExist(fName)
 }
 else
 {
-  fName = 
+  fName =
 }
 
 ProcessorsArr:=[]
@@ -185,7 +185,7 @@ Loop, Files, models\* ,D
       Model_List=%A_LoopFileName%
     Else
       Model_List=%Model_List%|%A_LoopFileName%
-    
+
     If (A_LoopFileName = "models")
       Model_Default:=A_Index
 }
@@ -502,7 +502,7 @@ Else
 {
   GuiControl, Main:Show, VerboseLog
   Gui,Main:Show, h%h_withlog%
-  
+
 }
 Return
 
@@ -564,13 +564,13 @@ Case-ConvMode-2:
    Params := Params " -m scale"
    Break
 Case-ConvMode-3:
-   Params := Params " -m noise_scale"
+   Params := Params " -m noise-scale"
    Break
 }
 ;-=-=-=-=-=-=-=-=-=
-Params := Params " --noise_level " . DenoiseLevel
+Params := Params " --noise-level " . DenoiseLevel
 ;-=-=-=-=-=-=-=-=-=
-Params := Params " --model_dir """ A_ScriptDir "\models\" OutModel """"
+Params := Params " --model-dir """ A_ScriptDir "\models\" OutModel """"
 ;-=-=-=-=-=-=-=-=-=
 Params := Params " -j " Threads
 ;-=-=-=-=-=-=-=-=-=
@@ -582,10 +582,10 @@ If (ManualProc=1)
 {
   Params := Params " --processor " SelProcNum
 }
-Params := Params " --scale_ratio " ScaleRatio
+Params := Params " --scale-ratio " ScaleRatio
 If (BLKSize <> "")
 If BLKSize is integer
-  Params := Params " --block_size " BLKSize
+  Params := Params " --block-size " BLKSize
 ;-=-=-=-=-=-=-=-=-=
 OutPath:=RegExReplace(OutPath, " *$", "\")
 OutPath:=RegExReplace(OutPath, "\\+", "\")
@@ -713,7 +713,7 @@ On_WM_MOUSEMOVE(){
 	;  DllCall("SetCursor","UInt",BusyCur)
 	;  Return
 	;}
-	
+
 	static CurrControl, PrevControl, _TT
 	CurrControl := A_GuiControl
 	If (CurrControl <> PrevControl){
@@ -721,7 +721,7 @@ On_WM_MOUSEMOVE(){
 			PrevControl := CurrControl
 	}
 	return
-	
+
 	DisplayToolTip:
 	try
 			ToolTip % %CurrControl%_TT
@@ -729,7 +729,7 @@ On_WM_MOUSEMOVE(){
 			ToolTip
 	SetTimer, RemoveToolTip, -2000
 	return
-	
+
 	RemoveToolTip:
 	ToolTip
 	return
@@ -880,7 +880,7 @@ Convert_Format(InFile, OutFile, Quality)
 ProcsSetText(ProcType, ProcName)
 {
   Global hBtnProcWin
-  
+
   If (StrLen(ProcName) < 20)
     ControlSetText, , %ProcName%`r`n(%ProcType%), ahk_id %hBtnProcWin%
   Else If (StrLen(ProcName)+StrLen(ProcType) > 38)
@@ -912,7 +912,7 @@ EnsureFTypeList(Variable, ControlID)
 EnsureIntRange(Variable, Max, ControlID, DefaultVal)
 {
   ControlGet, inPos, CurrentCol,,, ahk_id %ControlID%
-	if ((Variable<=Max and Variable>0) or Variable="" ) 
+	if ((Variable<=Max and Variable>0) or Variable="" )
 		return
 	GuiControl,,%ControlID%,%DefaultVal%
 	PostMessage,0x00B1,inPos-1,inPos-1,, ahk_id %ControlID%
@@ -930,8 +930,8 @@ EnsureNum(Variable, ControlID)
 		Loop, % splitNum0-1
 		{
 			ind:=A_Index+1
-			noNumVar.=splitNum%ind%	 
-		}	
+			noNumVar.=splitNum%ind%
+		}
 	}
 	if (Variable==noNumVar && !containsSpaces) 		; If nothing changed and no spaces present, return
 		return
